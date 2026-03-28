@@ -1,91 +1,214 @@
 # Agent Design Studio
 
-Agent Design Studio is a chat-first, visual, interactive system for co-designing agent architectures.
+Agent Design Studio is a chat-first, **user-steered design evolution system** for task-specific agents.
 
-This repository is the initial foundation only. It defines the product shape, core schemas, documentation, repo rules, placeholder UI, and basic tests. It does not yet implement candidate execution, evidence-based selection, compilation, audit, or patch application logic.
+Instead of generating agents in a single step, the system enables users to iteratively construct, compare, and refine structured **DesignDocs**, which serve as the source of truth for agent behavior.
 
-## Why This Exists
+---
 
-Most agent-building tools jump directly from a prompt to generated code. That skips the design work:
+## 🧭 System Overview
 
-- clarifying the design space,
-- expressing tradeoffs explicitly,
-- iterating with shared context,
-- visualizing how an agent is structured,
-- preserving a durable source of truth for future generation and patching.
-
-Agent Design Studio treats agent design itself as a first-class workflow.
-
-## Core Ideas
-
-- Chat is the primary interaction mode.
-- Sliders are persistent and share one tradeoff state with chat.
-- Visualization is mandatory, not optional decoration.
-- Design states may be partial and still valid for iteration.
-- Each generated task agent will eventually have a structured `DesignDoc` as its source of truth.
-- Future selection should be evidence-based rather than preference-only.
-- Future changes should support local patching instead of full regeneration.
-
-## High-Level Workflow
-
-1. The user describes a task and goals through chat.
-2. Persistent sliders express tradeoff preferences like latency, robustness, simplicity, cost, and explainability.
-3. Chat and sliders update a shared design state.
-4. The system visualizes the current workflow, tradeoff position, and active-design diff.
-5. The system can generate deterministic candidate designs, compare them, let the user select one, and adopt it into the active design.
-6. Future versions will evaluate candidates with evidence, compile artifacts, and support local patching.
-
-## Repository Structure
+The product is structured as a layered system that moves from **user intent → design → implementation → evaluation → improvement**.
 
 ```text
-agent-design-studio/
-├── AGENTS.md
-├── README.md
-├── LICENSE
-├── configs/
-├── docs/
-├── examples/
-├── src/agent_design_studio/
-│   ├── compilers/
-│   ├── engines/
-│   ├── evaluation/
-│   ├── runtime/
-│   ├── schemas/
-│   ├── templates/
-│   └── ui/
-└── tests/
+User (co-design)
+    ↓
+Intent & Preferences
+    ↓
+Design Evolution System
+    ↓
+DesignDoc (source of truth)
+    ↓
+Blueprint / Implementation Spec (future)
+    ↓
+Agent Implementation (future)
+    ↓
+Evaluation on Sample Tasks (future)
+    ↓
+Iterative Improvement Loop (future)
 ```
 
-## Run The Placeholder App
+---
 
-Create a virtual environment, install dependencies, and start Streamlit:
+## 🧠 User Co-Design Model
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run src/agent_design_studio/ui/app.py
+The system is built around **user-steered co-design**, where users continuously shape the design.
+
+### Inputs
+
+* **Task** — what the agent should do
+* **Chat** — goals, corrections, and preferences
+* **Sliders** — explicit tradeoff controls (latency, robustness, cost, etc.)
+* **Selection** — choosing a candidate design
+
+### Key Idea
+
+User preference is not static — it is continuously expressed through:
+
+* sliders (explicit)
+* chat (implicit)
+* selection (revealed preference)
+
+---
+
+## 🔁 Core Design Evolution Loop
+
+The system operates as an iterative loop:
+
+```text
+Intent → Candidates → Compare → Select → Adopt → Evolve → Repeat
 ```
 
-## Current MVP Status
+Each iteration produces a new version of the **DesignDoc**.
 
-Current status:
+---
 
-- product definition is documented,
-- architecture flows are documented,
-- schema layer is scaffolded with Pydantic models,
-- shared-state UI is available,
-- deterministic candidate generation is available,
-- candidate diff / comparison / selection / adoption is available,
-- active-design evolution diff is available,
-- tests cover current design-system behavior.
+## 🧱 Internal Architecture
 
-Not implemented yet:
+### 1. Intent & Preference Layer
 
-- candidate execution,
-- evidence-based evaluation and selection,
-- compilation into runnable agents,
-- local patch application,
-- audit and repair loops.
+Maps user inputs into structured signals:
 
-Those capabilities are intentionally left as TODO scaffolding for later steps.
+* direction (e.g. “more robust”, “faster”)
+* constraints
+* tradeoff preferences
+
+(Currently implemented with deterministic rules.)
+
+---
+
+### 2. Design Evolution System (Core)
+
+Responsible for:
+
+* deterministic candidate generation
+* candidate comparison (diff)
+* explicit user selection
+* adoption → new active design
+* design evolution tracking (history + versions)
+
+This is the core of the current system.
+
+---
+
+### 3. DesignSpace (Internal, upcoming)
+
+An internal **option library** defining:
+
+* design axes (validation, control, memory, workflow)
+* available options per axis
+* tradeoff semantics
+* profile strategies (Fast / Balanced / Robust / Simple)
+
+Used to generate candidates deterministically.
+
+---
+
+### 4. Design IR (Internal, upcoming)
+
+A structured representation of design:
+
+* tradeoffs
+* validation / control / memory / workflow
+* hints
+
+Used for:
+
+* diff
+* history
+* comparison
+* future compilation
+
+---
+
+### 5. DesignDoc (User-Facing)
+
+The primary artifact in the system.
+
+* structured
+* versioned
+* evolves over time
+* fully reflects the current design
+
+All operations ultimately produce or modify a DesignDoc.
+
+---
+
+## 📍 Current Status
+
+The system already supports a full **deterministic design evolution loop**:
+
+* chat + sliders + task input
+* shared design state
+* deterministic candidate generation
+* candidate comparison (diff)
+* candidate selection
+* explicit adoption
+* active design evolution (diff + history)
+
+This forms a complete **idea → DesignDoc** pipeline.
+
+---
+
+## 🚀 Future Direction
+
+The next stages extend beyond design into implementation:
+
+### Design → Implementation
+
+* Blueprint / implementation spec
+* agent generation / compilation
+
+### Implementation → Evaluation
+
+* execution on sample tasks
+* performance comparison
+
+### Evaluation → Improvement
+
+* version selection
+* local patching
+* iterative refinement
+
+---
+
+## 🎯 Key Principles
+
+* **User-steered** — no hidden optimization or auto-selection
+* **Deterministic** — no LLM dependency in core loop (for current stage)
+* **Explicit** — all changes are visible and diffable
+* **Evolution-first** — design is a trajectory, not a one-shot result
+* **DesignDoc-centric** — the design is the source of truth
+
+---
+
+## 🧠 What This Is (and Is Not)
+
+### This is:
+
+* a design evolution system
+* a co-design environment
+* a decision-support tool for agent architecture
+
+### This is not:
+
+* a prompt-to-code generator
+* a black-box agent builder
+* a one-shot automation tool
+
+---
+
+## 🔄 Summary
+
+Agent Design Studio turns agent creation into a structured, iterative process:
+
+```text
+User Idea → Design Evolution → DesignDoc → (future) Agent → Evaluation → Improvement
+```
+
+The current focus is making **design itself**:
+
+* structured
+* comparable
+* controllable
+* evolvable
