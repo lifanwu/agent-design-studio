@@ -1,0 +1,27 @@
+tradeoff_axes:
+  latency:
+    min: 0.0
+    max: 1.0
+    default: 0.5
+    description: Prefer faster responses and leaner workflows.
+  robustness:
+    min: 0.0
+    max: 1.0
+    default: 0.7
+    description: Prefer resilient behavior under ambiguity or failure.
+  simplicity:
+    min: 0.0
+    max: 1.0
+    default: 0.6
+    description: Prefer straightforward structures over complex capability stacks.
+  cost:
+    min: 0.0
+    max: 1.0
+    default: 0.5
+    description: Prefer lower runtime and infrastructure cost.
+  explainability:
+    min: 0.0
+    max: 1.0
+    default: 0.7
+    description: Prefer designs that are easy to inspect and justify.
+

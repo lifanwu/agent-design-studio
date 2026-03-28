@@ -1,0 +1,70 @@
+profiles:
+  - id: fast
+    label: Fast
+    short_description: Lean workflow with minimal validation and low memory overhead.
+    tradeoff_overrides:
+      latency: 0.9
+      cost: 0.4
+      robustness: 0.45
+      simplicity: 0.6
+    design_hints:
+      - Use lightweight validation only on final outputs.
+      - Prefer a short control loop with minimal intermediate checks.
+      - Avoid persistent memory unless required by the task.
+    strategy:
+      validation_depth: light
+      control_style: short_loop
+      memory_usage: minimal
+      workflow_complexity: lean
+  - id: balanced
+    label: Balanced
+    short_description: Moderate validation, moderate control depth, and practical defaults.
+    tradeoff_overrides:
+      latency: 0.6
+      cost: 0.5
+      robustness: 0.7
+      simplicity: 0.65
+    design_hints:
+      - Mix lightweight validation with explicit review checkpoints.
+      - Use a moderate workflow depth with readable steps.
+      - Allow limited short-term working memory if it improves continuity.
+    strategy:
+      validation_depth: moderate
+      control_style: guided_review
+      memory_usage: selective
+      workflow_complexity: moderate
+  - id: robust
+    label: Robust
+    short_description: Higher validation, conservative control strategy, and stronger safeguards.
+    tradeoff_overrides:
+      latency: 0.35
+      cost: 0.45
+      robustness: 0.95
+      simplicity: 0.45
+    design_hints:
+      - Use explicit validation after each major workflow phase.
+      - Prefer conservative control flow with more checkpoints.
+      - Assume stronger tool verification and fallback handling.
+    strategy:
+      validation_depth: deep
+      control_style: conservative
+      memory_usage: selective
+      workflow_complexity: layered
+  - id: simple
+    label: Simple
+    short_description: Shallow architecture with few steps, explicit assumptions, and reduced moving parts.
+    tradeoff_overrides:
+      latency: 0.55
+      cost: 0.55
+      robustness: 0.65
+      simplicity: 0.95
+    design_hints:
+      - Keep the workflow shallow with very few major steps.
+      - Reduce optional tooling and avoid complex orchestration.
+      - Prefer explicit assumptions over hidden adaptation.
+    strategy:
+      validation_depth: targeted
+      control_style: explicit_steps
+      memory_usage: minimal
+      workflow_complexity: shallow
+

@@ -1,0 +1,11 @@
+tools:
+  - id: web-search
+    category: retrieval
+    status: placeholder
+  - id: file-io
+    category: local
+    status: placeholder
+  - id: python-runtime
+    category: execution
+    status: placeholder
+

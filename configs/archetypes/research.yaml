@@ -1,0 +1,7 @@
+id: research
+name: Research Agent
+description: Placeholder archetype for research-oriented task agents.
+default_traits:
+  retrieval_heavy: true
+  verification_required: true
+

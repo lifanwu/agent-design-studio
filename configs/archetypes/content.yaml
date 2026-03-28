@@ -1,0 +1,7 @@
+id: content
+name: Content Agent
+description: Placeholder archetype for drafting and transformation tasks.
+default_traits:
+  output_formatting: true
+  review_loop: true
+

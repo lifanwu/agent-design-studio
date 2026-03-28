@@ -1,0 +1,7 @@
+id: monitoring
+name: Monitoring Agent
+description: Placeholder archetype for watch-and-alert task agents.
+default_traits:
+  scheduled: true
+  alerting_enabled: true
+
